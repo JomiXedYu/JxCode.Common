@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4dc048aa-940b-426d-9df3-293ea1e9a993</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared.JxCode.Common</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AESHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DynamicType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FSM\FSMBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FSM\FSMStateBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)INIConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MatchExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Random.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReflectionExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Singleton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XmlSerializerHelper.cs" />
+  </ItemGroup>
+</Project>

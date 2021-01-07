@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JxCode.Common", "JxCode.Common\JxCode.Common.csproj", "{F93D2EC5-AA31-4C23-A83B-30C16CCB4382}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.JxCode.Common", "Shared.JxCode.Common\Shared.JxCode.Common.shproj", "{4DC048AA-940B-426D-9DF3-293EA1E9A993}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared.JxCode.Common\Shared.JxCode.Common.projitems*{4dc048aa-940b-426d-9df3-293ea1e9a993}*SharedItemsImports = 13
+		Shared.JxCode.Common\Shared.JxCode.Common.projitems*{f93d2ec5-aa31-4c23-a83b-30c16ccb4382}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F93D2EC5-AA31-4C23-A83B-30C16CCB4382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93D2EC5-AA31-4C23-A83B-30C16CCB4382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93D2EC5-AA31-4C23-A83B-30C16CCB4382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93D2EC5-AA31-4C23-A83B-30C16CCB4382}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2FD1AF7-61CF-42E3-811A-60877D353B23}
+	EndGlobalSection
+EndGlobal
