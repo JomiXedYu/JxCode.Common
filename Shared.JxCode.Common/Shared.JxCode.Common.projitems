@@ -14,11 +14,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)FSM\FSMBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FSM\FSMStateBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)INIConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JColor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MatchExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\Downloader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\Http.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\INetProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\ISerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\ProtocalType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\RpcClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\RpcClientProxy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\RpcPackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxRPC\RpcServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Net\JxSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Singleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unmanaged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UnmanagedString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XmlSerializerHelper.cs" />
   </ItemGroup>
 </Project>
