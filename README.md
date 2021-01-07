@@ -8,10 +8,10 @@
 非托管对象快速操作封装类
 非托管字符串操作类  
 
-Socket封装类
-PostJson与Form快速操作封装类
-支持断点续传的下载器类
-极其简易的RPC
+Socket封装类  
+PostJson与Form快速操作封装类  
+支持断点续传的下载器类  
+极其简易的RPC  
 
 INI配置  
 反射扩展  
