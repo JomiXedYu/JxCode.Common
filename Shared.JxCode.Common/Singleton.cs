@@ -1,22 +1,25 @@
 ﻿using System;
 
-public class Singleton<T> : IDisposable where T : class, new()
+namespace JxCode.Common
 {
-    private static T mInstance;
-    public static T Instance
+    public class Singleton<T> : IDisposable where T : class, new()
     {
-        get => GetInstance();
-    }
-    public static T GetInstance()
-    {
-        if (mInstance == null)
+        private static T mInstance;
+        public static T Instance
         {
-            mInstance = Activator.CreateInstance<T>();
+            get => GetInstance();
         }
-        return mInstance;
-    }
+        public static T GetInstance()
+        {
+            if (mInstance == null)
+            {
+                mInstance = Activator.CreateInstance<T>();
+            }
+            return mInstance;
+        }
 
-    public virtual void Dispose()
-    {
+        public virtual void Dispose()
+        {
+        }
     }
 }
