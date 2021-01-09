@@ -29,7 +29,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Random.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Singleton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SolidList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SolidStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UndoList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Unmanaged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnmanagedString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XmlSerializerHelper.cs" />

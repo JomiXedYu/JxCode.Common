@@ -72,10 +72,7 @@ namespace JxCode.Common
 
         public void Clear()
         {
-            for (int i = 0; i < this.count; i++)
-            {
-                this.array[i] = default(T);
-            }
+            Array.Clear(this.array, 0, this.count);
             this.count = 0;
         }
 

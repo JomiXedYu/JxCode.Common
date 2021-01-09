@@ -8,10 +8,26 @@ namespace JxCode.Common
     {
         private T[] data;
         private int count = 0;
+        public int Count
+        {
+            get
+            {
+                return this.count;
+            }
+        }
+
         private int capicity = 0;
+        public int Capicity
+        {
+            get
+            {
+                return this.capicity;
+            }
+        }
+
         public SolidStack(int size)
         {
-            if(size <= 0)
+            if (size <= 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -34,7 +50,7 @@ namespace JxCode.Common
         }
         public T Pop()
         {
-            if(this.count == 0)
+            if (this.count == 0)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -43,8 +59,48 @@ namespace JxCode.Common
             --this.count;
             return tmp;
         }
-        public int Count => this.count;
-        public void CopyTo(Array array, int index) => data.CopyTo(array, index);
+        public T Peek(int level)
+        {
+            if (this.count == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            int pos = this.count - level - 1;
+            if (pos < 0 || pos >= this.count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            return this.data[pos];
+        }
+        public bool TryPeek(int level, ref T target)
+        {
+            if (this.count == 0)
+            {
+                return false;
+            }
+            int pos = this.count - level - 1;
+            if (pos < 0 || pos >= this.count)
+            {
+                return false;
+            }
+            target = this.data[pos];
+            return true;
+        }
+        public T PeekTop()
+        {
+            return this.Peek(0);
+        }
+        public bool TryPeekTop(ref T obj)
+        {
+            return this.TryPeek(0, ref obj);
+        }
+        public void Clear()
+        {
+            Array.Clear(this.data, 0, this.count);
+            this.count = 0;
+        }
+
         IEnumerator IEnumerable.GetEnumerator() => data.GetEnumerator();
+
     }
 }
