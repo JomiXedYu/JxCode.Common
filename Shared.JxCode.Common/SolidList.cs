@@ -50,12 +50,6 @@ namespace JxCode.Common
             this.array = new T[this.capacity];
         }
 
-        public SolidList() : this(8)
-        {
-
-        }
-
-
         public T this[int index]
         {
             get
@@ -79,16 +73,16 @@ namespace JxCode.Common
         public bool IsReadOnly => false;
 
 
-        protected void SetCapicity(int capicity)
+        protected void SetCapacity(int capacity)
         {
-            T[] arr = new T[capicity];
+            T[] arr = new T[capacity];
 
             var count = this.Count;
 
             Array.Copy(this.array, this.head, arr, 0, count);
             this.array = arr;
 
-            this.capacity = capicity;
+            this.capacity = capacity;
             this.head = 0;
             this.tail = count - 1;
         }
@@ -97,7 +91,7 @@ namespace JxCode.Common
         {
             if (this.tail + 1 == this.capacity)
             {
-                this.SetCapicity(this.Count * 2);
+                this.SetCapacity(this.Count * 2);
             }
 
             ++this.tail;
@@ -127,6 +121,57 @@ namespace JxCode.Common
         {
             Array.Copy(this.array, this.head, array, arrayIndex, this.Count);
         }
+
+        public int IndexOf(T item)
+        {
+            return Array.IndexOf(this.array, item, this.head, this.Count);
+        }
+
+        public void Insert(int index, T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            int index = this.IndexOf(item);
+            if (index == -1)
+            {
+                return false;
+            }
+            this.RemoveAt(index);
+            return true;
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= this.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            if (index == this.Count - 1)
+            {
+                this.array[this.tail] = default(T);
+                --this.tail;
+            }
+            else
+            {
+                Array.Copy(this.array, this.head + index + 1, this.array, index, this.Count - 1 - index);
+                this.array[this.Count - 1] = default(T);
+            }
+            ++this.version;
+        }
+
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new Enumerator(this);
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new Enumerator(this);
+        }
+
 
         protected struct Enumerator : IEnumerator<T>
         {
@@ -177,56 +222,6 @@ namespace JxCode.Common
                 this.index = -1;
                 this.current = default(T);
             }
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new Enumerator(this);
-        }
-
-        public int IndexOf(T item)
-        {
-            return Array.IndexOf(this.array, item, this.head, this.Count);
-        }
-
-        public void Insert(int index, T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(T item)
-        {
-            int index = this.IndexOf(item);
-            if (index == -1)
-            {
-                return false;
-            }
-            this.RemoveAt(index);
-            return true;
-        }
-
-        public void RemoveAt(int index)
-        {
-            if (index < 0 || index >= this.Count)
-            {
-                throw new IndexOutOfRangeException();
-            }
-            if (index == this.Count - 1)
-            {
-                this.array[this.tail] = default(T);
-                --this.tail;
-            }
-            else
-            {
-                Array.Copy(this.array, this.head + index + 1, this.array, index, this.Count - 1 - index);
-                this.array[this.Count - 1] = default(T);
-            }
-            ++this.version;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new Enumerator(this);
         }
     }
 }

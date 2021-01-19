@@ -32,11 +32,6 @@ namespace JxCode.Common
             this.array = new T[capacity];
         }
 
-        public SolidArray() : this(8)
-        {
-        }
-
-
         public T this[int index]
         {
             get
