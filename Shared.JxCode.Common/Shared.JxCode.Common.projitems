@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Singleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SolidList.cs" />
+    <Compile Include="..\Shared.JxCode.Common\SolidArray.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SolidStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UndoList.cs" />

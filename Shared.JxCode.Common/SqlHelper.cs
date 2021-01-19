@@ -240,7 +240,7 @@ namespace JxCode.Common
             });
             return list;
         }
- 
+
         protected void SetValue<T, Value>(T t, string name, Value value)
         {
             Type type = t.GetType();
@@ -382,11 +382,11 @@ namespace JxCode.Common
             {
                 this.SqlType = "SQLite";
                 this.DataBaseName = path;
-                
+
                 var ass = Assembly.Load("System.Data.SQLite");
-                this.ConnectionType = ass.GetType("System.Data.SQLite.SQLiteConnection");
-                this.CommandType = ass.GetType("System.Data.SQLite.SQLiteCommand");
-                this.AdapterType = ass.GetType("System.Data.SQLite.SQLiteDataAdapter");
+                this.ConnectionType = ass.GetType("System.Data.SQLite.SQLiteConnection", true, true);
+                this.CommandType = ass.GetType("System.Data.SQLite.SQLiteCommand", true, true);
+                this.AdapterType = ass.GetType("System.Data.SQLite.SQLiteDataAdapter", true, true);
                 this.conn = Activator.CreateInstance(this.ConnectionType) as DbConnection;
                 this.conn.ConnectionString = "data source=" + path;
             }

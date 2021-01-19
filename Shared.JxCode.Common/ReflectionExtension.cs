@@ -76,9 +76,8 @@ namespace JxCode.Common
         /// </summary>
         /// <param name="attrib"></param>
         /// <returns></returns>
-        public static Type[] GetClassTypeByAttribute(Type attrib)
+        public static Type[] GetClassTypeByAttribute(Assembly ass, Type attrib)
         {
-            var ass = Assembly.GetExecutingAssembly();
             Type[] ts = ass.GetTypes();
             List<Type> rst = new List<Type>();
             foreach (Type item in ts)
@@ -92,9 +91,8 @@ namespace JxCode.Common
         /// </summary>
         /// <param name="attrib"></param>
         /// <returns></returns>
-        public static MethodInfo[] GetMethodByAttribute(Type attrib)
+        public static MethodInfo[] GetMethodByAttribute(Assembly ass, Type attrib)
         {
-            var ass = Assembly.GetExecutingAssembly();
             Type[] ts = ass.GetTypes();
             List<MethodInfo> rst = new List<MethodInfo>();
             foreach (Type item in ts)

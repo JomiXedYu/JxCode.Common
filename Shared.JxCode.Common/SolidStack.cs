@@ -6,8 +6,8 @@ namespace JxCode.Common
 {
     public class SolidStack<T> : IEnumerable
     {
-        private T[] data;
-        private int count = 0;
+        protected T[] data;
+        protected int count = 0;
         public int Count
         {
             get
@@ -16,7 +16,7 @@ namespace JxCode.Common
             }
         }
 
-        private int capicity = 0;
+        protected int capicity = 0;
         public int Capicity
         {
             get
@@ -25,14 +25,20 @@ namespace JxCode.Common
             }
         }
 
+        protected int size;
+        public int Size => size;
+
         public SolidStack(int size)
         {
             if (size <= 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            this.capicity = size;
-            this.data = new T[size];
+
+            this.size = size;
+
+            this.capicity = 8;
+            this.data = new T[this.capicity];
         }
 
         public void Push(T t)

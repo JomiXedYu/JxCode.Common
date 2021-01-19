@@ -5,54 +5,35 @@ using System.Collections.Generic;
 namespace JxCode.Common
 {
     /// <summary>
-    /// 逻辑上新增溢出项会覆盖旧项的固定大小列表
+    /// 新增溢出项会覆盖旧项的固定大小数组
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SolidList<T> : IList<T>, ICollection<T>, IEnumerable<T>
+    public class SolidArray<T> : IList<T>, ICollection<T>, IEnumerable<T>
     {
         protected T[] array;
-
         protected int capacity;
         public int Capacity
         {
             get => this.capacity;
         }
-
-        protected int size;
-        public int Size => size;
-
-        protected int head = 0;
-        protected int tail = -1;
-
+        protected int count;
         public int Count
         {
-            get
-            {
-                if (this.head > this.tail)
-                {
-                    return 0;
-                }
-                return this.tail - this.head + 1;
-            }
+            get => this.count;
         }
 
-        protected int version = 0;
-
-        public SolidList(int size)
+        public SolidArray(int capacity)
         {
-            if (size <= 0)
+            if (capacity <= 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            this.size = size;
-
-            this.capacity = 8;
-            this.array = new T[this.capacity];
+            this.capacity = capacity;
+            this.array = new T[capacity];
         }
 
-        public SolidList() : this(8)
+        public SolidArray() : this(8)
         {
-
         }
 
 
@@ -60,62 +41,43 @@ namespace JxCode.Common
         {
             get
             {
-                if (index < 0 || index >= this.Count)
+                if (index >= count)
                 {
                     throw new IndexOutOfRangeException();
                 }
-                return this.array[this.head + index];
+                return this.array[index];
             }
             set
             {
-                if (index < 0 || index >= this.Count)
+                if (index >= count)
                 {
                     throw new IndexOutOfRangeException();
                 }
-                this.array[this.head + index] = value;
+                this.array[index] = value;
             }
         }
 
         public bool IsReadOnly => false;
 
-
-        protected void SetCapicity(int capicity)
-        {
-            T[] arr = new T[capicity];
-
-            var count = this.Count;
-
-            Array.Copy(this.array, this.head, arr, 0, count);
-            this.array = arr;
-
-            this.capacity = capicity;
-            this.head = 0;
-            this.tail = count - 1;
-        }
-
         public void Add(T item)
         {
-            if (this.tail + 1 == this.capacity)
+            if (this.count < this.capacity)
             {
-                this.SetCapicity(this.Count * 2);
+                this.array[this.count] = item;
+                this.count++;
+            }
+            else
+            {
+                Array.Copy(this.array, 1, this.array, 0, this.capacity - 1);
+                this.array[this.capacity - 1] = item;
             }
 
-            ++this.tail;
-            this.array[this.tail] = item;
-
-            if (this.Count > this.size)
-            {
-                this.array[this.head] = default(T);
-                ++this.head;
-            }
-
-            ++this.version;
         }
 
         public void Clear()
         {
-            Array.Clear(this.array, this.head, this.Count);
-            ++this.version;
+            Array.Clear(this.array, 0, this.count);
+            this.count = 0;
         }
 
         public bool Contains(T item)
@@ -125,12 +87,12 @@ namespace JxCode.Common
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            Array.Copy(this.array, this.head, array, arrayIndex, this.Count);
+            Array.Copy(this.array, 0, array, arrayIndex, this.count);
         }
 
         protected struct Enumerator : IEnumerator<T>
         {
-            SolidList<T> list;
+            SolidArray<T> list;
             T current;
             int index;
 
@@ -150,7 +112,7 @@ namespace JxCode.Common
             }
 
 
-            public Enumerator(SolidList<T> list)
+            public Enumerator(SolidArray<T> list)
             {
                 this.list = list;
                 this.current = default(T);
@@ -163,7 +125,7 @@ namespace JxCode.Common
 
             public bool MoveNext()
             {
-                if (this.index + 1 == this.list.Count)
+                if(this.index + 1 == this.list.count)
                 {
                     return false;
                 }
@@ -186,7 +148,7 @@ namespace JxCode.Common
 
         public int IndexOf(T item)
         {
-            return Array.IndexOf(this.array, item, this.head, this.Count);
+            return Array.IndexOf(this.array, item, 0, this.count);
         }
 
         public void Insert(int index, T item)
@@ -207,26 +169,25 @@ namespace JxCode.Common
 
         public void RemoveAt(int index)
         {
-            if (index < 0 || index >= this.Count)
+            if (index >= this.count)
             {
                 throw new IndexOutOfRangeException();
             }
-            if (index == this.Count - 1)
+            if (index == this.count - 1)
             {
-                this.array[this.tail] = default(T);
-                --this.tail;
+                this.array[this.count - 1] = default(T);
+                --this.count;
             }
             else
             {
-                Array.Copy(this.array, this.head + index + 1, this.array, index, this.Count - 1 - index);
-                this.array[this.Count - 1] = default(T);
+                Array.Copy(this.array, index + 1, this.array, index, this.count - 1 - index);
+                this.array[this.count - 1] = default(T);
             }
-            ++this.version;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new Enumerator(this);
+            return this.array.GetEnumerator();
         }
     }
 }
