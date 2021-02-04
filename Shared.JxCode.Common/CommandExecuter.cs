@@ -5,15 +5,15 @@ using System.Text;
 
 namespace JxCode.Common
 {
-    public interface IUndoable
+    public interface ICommand
     {
         void Undo();
-        void Redo();
+        void Execute();
     }
-    public class UndoList
+    public class CommandExecuter
     {
-        private SolidStack<IUndoable> undoStack;
-        private SolidStack<IUndoable> redoStack;
+        private SolidStack<ICommand> undoStack;
+        private SolidStack<ICommand> redoStack;
 
         private int capicity;
         public int Capicity { get => this.capicity; }
@@ -21,19 +21,20 @@ namespace JxCode.Common
         public int UndoListCount { get => this.undoStack.Count; }
         public int RedoListCount { get => this.redoStack.Count; }
 
-        public UndoList(int capicity)
+        public CommandExecuter(int capicity)
         {
             this.capicity = capicity;
-            this.undoStack = new SolidStack<IUndoable>(capicity);
-            this.redoStack = new SolidStack<IUndoable>(capicity);
+            this.undoStack = new SolidStack<ICommand>(capicity);
+            this.redoStack = new SolidStack<ICommand>(capicity);
         }
 
-        public IUndoable Add(IUndoable item)
+        public ICommand Execute(ICommand item)
         {
             if (this.redoStack.Count != 0)
             {
                 this.redoStack.Clear();
             }
+            item.Execute();
             this.undoStack.Push(item);
             return item;
         }
@@ -63,7 +64,7 @@ namespace JxCode.Common
             }
             var popobj = this.redoStack.Pop();
             this.undoStack.Push(popobj);
-            popobj.Redo();
+            popobj.Execute();
         }
     }
 }

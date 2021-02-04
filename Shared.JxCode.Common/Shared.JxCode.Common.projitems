@@ -33,7 +33,7 @@
     <Compile Include="..\Shared.JxCode.Common\SolidArray.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SolidStack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SqlHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UndoList.cs" />
+    <Compile Include="..\Shared.JxCode.Common\CommandExecuter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Unmanaged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnmanagedString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XmlSerializerHelper.cs" />
