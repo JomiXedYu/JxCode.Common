@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JxCode.Partten.FSM
 {
-    public abstract class FSMStateBase
+    public class FSMStateBase
     {
         public virtual void OnEnter() { }
         public virtual void OnLeave() { }

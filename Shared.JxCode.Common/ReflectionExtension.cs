@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace JxCode.Common
 {
@@ -59,6 +58,7 @@ namespace JxCode.Common
         /// <summary>
         /// 获取所有非属性，非操作符重载的公共方法。
         /// </summary>
+        /// <param name="_this"></param>
         /// <returns></returns>
         public static MethodInfo[] GetUsableMethods(this Type _this)
         {
@@ -74,6 +74,7 @@ namespace JxCode.Common
         /// <summary>
         /// 获取当前运行的程序集中所有标记为该特性的公用类型
         /// </summary>
+        /// <param name="ass"></param>
         /// <param name="attrib"></param>
         /// <returns></returns>
         public static Type[] GetClassTypeByAttribute(Assembly ass, Type attrib)
@@ -89,6 +90,7 @@ namespace JxCode.Common
         /// <summary>
         /// 获取当前运行的程序集中所有标记为该特性的公用方法
         /// </summary>
+        /// <param name="ass"></param>
         /// <param name="attrib"></param>
         /// <returns></returns>
         public static MethodInfo[] GetMethodByAttribute(Assembly ass, Type attrib)
@@ -101,6 +103,25 @@ namespace JxCode.Common
                 {
                     if (Attribute.IsDefined(mi, attrib))
                         rst.Add(mi);
+                }
+            }
+            return rst.ToArray();
+        }
+        /// <summary>
+        /// 获取程序集中所有继承于某类型的公共类型
+        /// </summary>
+        /// <param name="ass"></param>
+        /// <param name="baseType"></param>
+        /// <returns></returns>
+        public static Type[] GetClassTypeByBase(Assembly ass, Type baseType)
+        {
+            Type[] ts = ass.GetTypes();
+            List<Type> rst = new List<Type>();
+            foreach (Type item in ts)
+            {
+                if (item.IsSubclassOf(baseType))
+                {
+                    rst.Add(item);
                 }
             }
             return rst.ToArray();

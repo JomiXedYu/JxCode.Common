@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JxCode.Partten.FSM
 {
-    public abstract class FSMBase<TFSMIndex, TFSMState> where TFSMState : FSMStateBase
+    public class FSMBase<TFSMIndex, TFSMState> where TFSMState : FSMStateBase
     {
         private IDictionary<TFSMIndex, TFSMState> fsm = new Dictionary<TFSMIndex, TFSMState>();
 
