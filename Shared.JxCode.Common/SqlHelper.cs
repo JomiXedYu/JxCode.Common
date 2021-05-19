@@ -6,15 +6,15 @@
  * @Description : 
  */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Reflection;
+
 namespace JxCode.Common
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Data.Common;
-    using System.Reflection;
-
     public class SqlTable<T> : IEnumerable<T> where T : new()
     {
         public string Name { get; private set; }
