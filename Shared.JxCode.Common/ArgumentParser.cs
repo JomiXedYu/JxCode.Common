@@ -8,13 +8,13 @@ namespace JxCode.Common
 {
     public class ArgumentCommand : IEnumerable<string>
     {
-        public string RecordName { get; private set; }
+        public string CmdCode { get; private set; }
         public List<string> Args { get; private set; }
         public int ArgCount { get => Args.Count; }
 
         public ArgumentCommand(string record, List<string> args)
         {
-            this.RecordName = record;
+            this.CmdCode = record;
             this.Args = args;
         }
         public string GetFirstArg()
@@ -45,7 +45,7 @@ namespace JxCode.Common
 
     public class ArgumentConfig
     {
-        public string RecordName { get; set; }
+        public string CmdCOde { get; set; }
         public int ArgCount { get; set; }
         public bool IsRequired { get; set; }
         public Func<List<string>, CheckInvalidResult> CheckInvalidHandler;
@@ -56,20 +56,20 @@ namespace JxCode.Common
             bool isRequired,
             Func<List<string>, CheckInvalidResult> checkInvalidHandler)
         {
-            this.RecordName = record;
+            this.CmdCOde = record;
             this.ArgCount = argCount;
             this.IsRequired = isRequired;
             this.CheckInvalidHandler = checkInvalidHandler;
         }
         public override string ToString()
         {
-            return this.RecordName;
+            return this.CmdCOde;
         }
     }
     public class ArgumentConfigMessage : ArgumentConfig
     {
-        public ArgumentConfigMessage(string record = "-help")
-            : base(record, 0, false, null)
+        public ArgumentConfigMessage(string cmdCode = "-help")
+            : base(cmdCode, 0, false, null)
         {
         }
     }
@@ -98,27 +98,27 @@ namespace JxCode.Common
             return new CheckInvalidResult(true, null);
         }
         public ArgumentConfigFile(
-            string record,
+            string cmdCode,
             int argCount = 1,
             bool isRequired = true,
             bool hasExists = true,
             string[] extensions = null
-            ) : base(record, argCount, isRequired, null)
+            ) : base(cmdCode, argCount, isRequired, null)
         {
             this.hasExists = hasExists;
             this.extensions = extensions;
             base.CheckInvalidHandler = this.CheckFileInvalid;
         }
 
-        public static ArgumentConfigFile InputOnce(string record = "-i", string ext = null)
+        public static ArgumentConfigFile InputOnce(string cmdCode = "-i", string ext = null)
         {
             string[] extensions = ext == null ? null : new string[] { ext };
-            return new ArgumentConfigFile(record, 1, true, true, extensions);
+            return new ArgumentConfigFile(cmdCode, 1, true, true, extensions);
         }
-        public static ArgumentConfigFile OutputOnce(string record = "-o", string ext = null)
+        public static ArgumentConfigFile OutputOnce(string cmdCode = "-o", string ext = null)
         {
             string[] extensions = ext == null ? null : new string[] { ext };
-            return new ArgumentConfigFile(record, 1, true, false, extensions);
+            return new ArgumentConfigFile(cmdCode, 1, true, false, extensions);
         }
     }
     public class ArgumentConfigDirectory : ArgumentConfig
@@ -128,10 +128,10 @@ namespace JxCode.Common
             return default;
         }
         public ArgumentConfigDirectory(
-            string record,
+            string cmdCode,
             int argCount = 1,
             bool isRequired = true
-            ) : base(record, argCount, isRequired, CheckInvalidDir)
+            ) : base(cmdCode, argCount, isRequired, CheckInvalidDir)
         {
 
         }
@@ -159,7 +159,7 @@ namespace JxCode.Common
         }
         public ArgumentParserBuilder AddConfig(ArgumentConfig cfg)
         {
-            cfgs.Add(cfg.RecordName, cfg);
+            cfgs.Add(cfg.CmdCOde, cfg);
             return this;
         }
 
@@ -170,13 +170,13 @@ namespace JxCode.Common
             {
                 if (item.Value.IsRequired)
                 {
-                    list.Add(item.Value.RecordName);
+                    list.Add(item.Value.CmdCOde);
                 }
             }
             return list;
         }
 
-        public CmdLineArgument Build(string[] args)
+        public ArgumentParser Build(string[] args)
         {
             //检查必要参数
             var required = GetRequired();
@@ -191,33 +191,33 @@ namespace JxCode.Common
                 throw new ArgumentParserInvalidArgumentException("[error] missing cmd: " + sb.ToString());
             }
 
-            CmdLineArgument cmd = new CmdLineArgument();
+            ArgumentParser cmd = new ArgumentParser();
             if (args == null || args.Length == 0)
             {
                 return cmd;
             }
 
             //对参数循环
-            var records = new Dictionary<string, ArgumentCommand>();
-            ArgumentCommand curRecord = null;
+            var cmdCode = new Dictionary<string, ArgumentCommand>();
+            ArgumentCommand curCmd = null;
             for (int i = 0; i < args.Length; i++)
             {
                 string item = args[i];
-                if (!records.ContainsKey(item) && cfgs.ContainsKey(item))
+                if (!cmdCode.ContainsKey(item) && cfgs.ContainsKey(item))
                 {
-                    curRecord = new ArgumentCommand(item, new List<string>());
-                    records.Add(item, curRecord);
+                    curCmd = new ArgumentCommand(item, new List<string>());
+                    cmdCode.Add(item, curCmd);
                     continue;
                 }
-                else if (records.ContainsKey(item) && cfgs.ContainsKey(item))
+                else if (cmdCode.ContainsKey(item) && cfgs.ContainsKey(item))
                 {
                     throw new ArgumentParserInvalidArgumentException("[error] repeat command: " + item);
                 }
-                if (curRecord == null)
+                if (curCmd == null)
                 {
                     throw new ArgumentParserNotFindCommandException("[error] not find command: " + item);
                 }
-                curRecord.Args.Add(item);
+                curCmd.Args.Add(item);
             }
 
             //检查数据有效性
@@ -227,25 +227,25 @@ namespace JxCode.Common
                 ArgumentConfig cfg = item.Value;
 
                 //必须存在但是没存在
-                if (cfg.IsRequired && !records.ContainsKey(recordName))
+                if (cfg.IsRequired && !cmdCode.ContainsKey(recordName))
                 {
-                    throw new ArgumentParserNotFindCommandException("[error] not find command: " + cfg.RecordName);
+                    throw new ArgumentParserNotFindCommandException("[error] not find command: " + cfg.CmdCOde);
                 }
                 //已存在
-                if (records.ContainsKey(recordName))
+                if (cmdCode.ContainsKey(recordName))
                 {
                     //无参数的指令却给了参数
-                    if (cfg.ArgCount == 0 && records[recordName].ArgCount != 0)
+                    if (cfg.ArgCount == 0 && cmdCode[recordName].ArgCount != 0)
                     {
-                        throw new ArgumentParserInvalidArgumentException("[error] invalid argument count: " + cfg.RecordName);
+                        throw new ArgumentParserInvalidArgumentException("[error] invalid argument count: " + cfg.CmdCOde);
                     }
                     //有限的参数但长度不一
-                    if (cfg.ArgCount > 0 && records[recordName].ArgCount != cfg.ArgCount)
+                    if (cfg.ArgCount > 0 && cmdCode[recordName].ArgCount != cfg.ArgCount)
                     {
-                        throw new ArgumentParserInvalidArgumentException("[error] missing arguments: " + cfg.RecordName);
+                        throw new ArgumentParserInvalidArgumentException("[error] missing arguments: " + cfg.CmdCOde);
                     }
 
-                    var result = cfg?.CheckInvalidHandler(records[recordName].Args);
+                    var result = cfg?.CheckInvalidHandler(cmdCode[recordName].Args);
                     if (result != null && !result.IsSuccess)
                     {
                         throw new ArgumentParserInvalidArgumentException("[error] invalid arguments: " + result.Infomation);
@@ -254,29 +254,29 @@ namespace JxCode.Common
 
             }
 
-            cmd.Records = records;
+            cmd.CmdCode = cmdCode;
 
             return cmd;
         }
     }
 
-    public class CmdLineArgument
+    public class ArgumentParser
     {
-        public Dictionary<string, ArgumentCommand> Records;
+        public Dictionary<string, ArgumentCommand> CmdCode;
 
         public bool HasRecord(string record)
         {
-            return Records.ContainsKey(record);
+            return CmdCode.ContainsKey(record);
         }
-        public ArgumentCommand GetRecord(string record)
+        public ArgumentCommand GetRecord(string cmdCode)
         {
             ArgumentCommand rec = null;
-            Records.TryGetValue(record, out rec);
+            CmdCode.TryGetValue(cmdCode, out rec);
             return rec;
         }
-        public List<string> GetRecordArgs(string record)
+        public List<string> GetRecordArgs(string cmdCode)
         {
-            ArgumentCommand rec = GetRecord(record);
+            ArgumentCommand rec = GetRecord(cmdCode);
             if (rec == null)
             {
                 return null;
