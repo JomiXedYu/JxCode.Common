@@ -12,9 +12,9 @@ namespace JxCode.Common
         public List<string> Args { get; private set; }
         public int ArgCount { get => Args.Count; }
 
-        public ArgumentCommand(string record, List<string> args)
+        public ArgumentCommand(string cmdCode, List<string> args)
         {
-            this.CmdCode = record;
+            this.CmdCode = cmdCode;
             this.Args = args;
         }
         public string GetFirstArg()
@@ -45,7 +45,7 @@ namespace JxCode.Common
 
     public class ArgumentConfig
     {
-        public string CmdCOde { get; set; }
+        public string CmdCode { get; set; }
         public int ArgCount { get; set; }
         public bool IsRequired { get; set; }
         public Func<List<string>, CheckInvalidResult> CheckInvalidHandler;
@@ -56,14 +56,14 @@ namespace JxCode.Common
             bool isRequired,
             Func<List<string>, CheckInvalidResult> checkInvalidHandler)
         {
-            this.CmdCOde = record;
+            this.CmdCode = record;
             this.ArgCount = argCount;
             this.IsRequired = isRequired;
             this.CheckInvalidHandler = checkInvalidHandler;
         }
         public override string ToString()
         {
-            return this.CmdCOde;
+            return this.CmdCode;
         }
     }
     public class ArgumentConfigMessage : ArgumentConfig
@@ -159,7 +159,7 @@ namespace JxCode.Common
         }
         public ArgumentParserBuilder AddConfig(ArgumentConfig cfg)
         {
-            cfgs.Add(cfg.CmdCOde, cfg);
+            cfgs.Add(cfg.CmdCode, cfg);
             return this;
         }
 
@@ -170,7 +170,7 @@ namespace JxCode.Common
             {
                 if (item.Value.IsRequired)
                 {
-                    list.Add(item.Value.CmdCOde);
+                    list.Add(item.Value.CmdCode);
                 }
             }
             return list;
@@ -229,7 +229,7 @@ namespace JxCode.Common
                 //必须存在但是没存在
                 if (cfg.IsRequired && !cmdCode.ContainsKey(recordName))
                 {
-                    throw new ArgumentParserNotFindCommandException("[error] not find command: " + cfg.CmdCOde);
+                    throw new ArgumentParserNotFindCommandException("[error] not find command: " + cfg.CmdCode);
                 }
                 //已存在
                 if (cmdCode.ContainsKey(recordName))
@@ -237,12 +237,12 @@ namespace JxCode.Common
                     //无参数的指令却给了参数
                     if (cfg.ArgCount == 0 && cmdCode[recordName].ArgCount != 0)
                     {
-                        throw new ArgumentParserInvalidArgumentException("[error] invalid argument count: " + cfg.CmdCOde);
+                        throw new ArgumentParserInvalidArgumentException("[error] invalid argument count: " + cfg.CmdCode);
                     }
                     //有限的参数但长度不一
                     if (cfg.ArgCount > 0 && cmdCode[recordName].ArgCount != cfg.ArgCount)
                     {
-                        throw new ArgumentParserInvalidArgumentException("[error] missing arguments: " + cfg.CmdCOde);
+                        throw new ArgumentParserInvalidArgumentException("[error] missing arguments: " + cfg.CmdCode);
                     }
 
                     var result = cfg?.CheckInvalidHandler(cmdCode[recordName].Args);
@@ -264,19 +264,19 @@ namespace JxCode.Common
     {
         public Dictionary<string, ArgumentCommand> CmdCode;
 
-        public bool HasRecord(string record)
+        public bool HasCmd(string record)
         {
             return CmdCode.ContainsKey(record);
         }
-        public ArgumentCommand GetRecord(string cmdCode)
+        public ArgumentCommand GetCmd(string cmdCode)
         {
             ArgumentCommand rec = null;
             CmdCode.TryGetValue(cmdCode, out rec);
             return rec;
         }
-        public List<string> GetRecordArgs(string cmdCode)
+        public List<string> GetCmdArgs(string cmdCode)
         {
-            ArgumentCommand rec = GetRecord(cmdCode);
+            ArgumentCommand rec = GetCmd(cmdCode);
             if (rec == null)
             {
                 return null;
