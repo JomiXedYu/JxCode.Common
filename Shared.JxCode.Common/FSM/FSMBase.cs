@@ -16,6 +16,7 @@ namespace JxCode.Partten.FSM
 
         public void AddState(TFSMIndex fsmIndex, TFSMState state)
         {
+            state.HostFsm = this;
             fsm.Add(fsmIndex, state);
         }
         public void RemoveState(TFSMIndex fsmIndex)
@@ -51,5 +52,19 @@ namespace JxCode.Partten.FSM
         {
             return curState;
         }
+
+        public void Reset()
+        {
+            if (curState != null)
+            {
+                curState.OnLeave();
+            }
+            preIndex = default;
+            curIndex = default;
+            hasPreState = false;
+            curState = null;
+            fsm.Clear();
+        }
+
     }
 }
