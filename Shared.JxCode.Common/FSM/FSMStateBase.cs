@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JxCode.Partten.FSM
+namespace JxCode.Partten
 {
     public abstract class FSMStateBase
     {

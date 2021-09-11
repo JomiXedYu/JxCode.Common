@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JxCode.Partten.FSM
+namespace JxCode.Partten
 {
-    public class FSMBase<TFSMIndex, TFSMState> where TFSMState : FSMStateBase
+    public class FSM<TFSMIndex, TFSMState> where TFSMState : FSMStateBase
     {
         private IDictionary<TFSMIndex, TFSMState> fsm = new Dictionary<TFSMIndex, TFSMState>();
 
@@ -14,10 +14,11 @@ namespace JxCode.Partten.FSM
         private TFSMState curState = null;
         private TFSMIndex curIndex = default;
 
-        public void AddState(TFSMIndex fsmIndex, TFSMState state)
+        public FSM<TFSMIndex, TFSMState> AddState(TFSMIndex fsmIndex, TFSMState state)
         {
             state.HostFsm = this;
             fsm.Add(fsmIndex, state);
+            return this;
         }
         public void RemoveState(TFSMIndex fsmIndex)
         {
