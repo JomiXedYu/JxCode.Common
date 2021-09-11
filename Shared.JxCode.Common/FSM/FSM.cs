@@ -4,12 +4,13 @@ using System.Text;
 
 namespace JxCode.Partten
 {
+
     public class FSM<TFSMIndex, TFSMState> where TFSMState : FSMStateBase
     {
         private IDictionary<TFSMIndex, TFSMState> fsm = new Dictionary<TFSMIndex, TFSMState>();
 
-        private bool hasPreState = false;
-        public TFSMIndex preIndex { get; protected set; }
+        private bool hasLastState = false;
+        public TFSMIndex LastStateIndex { get; protected set; }
 
         private TFSMState curState = null;
         private TFSMIndex curIndex = default;
@@ -30,19 +31,19 @@ namespace JxCode.Partten
         }
         public void ChangePreState()
         {
-            if(!hasPreState)
+            if (!hasLastState)
             {
                 return;
             }
-            this.ChangeState(preIndex);
+            this.ChangeState(LastStateIndex);
         }
         public virtual void ChangeState(TFSMIndex fsmIndex)
         {
             if (curState != null)
             {
                 curState.OnLeave();
-                preIndex = curIndex;
-                hasPreState = true;
+                LastStateIndex = curIndex;
+                hasLastState = true;
             }
             curIndex = fsmIndex;
             curState = fsm[fsmIndex];
@@ -60,9 +61,9 @@ namespace JxCode.Partten
             {
                 curState.OnLeave();
             }
-            preIndex = default;
+            LastStateIndex = default;
             curIndex = default;
-            hasPreState = false;
+            hasLastState = false;
             curState = null;
             fsm.Clear();
         }

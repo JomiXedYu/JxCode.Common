@@ -9,6 +9,5 @@ namespace JxCode.Partten
         public object HostFsm { get; set; }
         public virtual void OnEnter() { }
         public virtual void OnLeave() { }
-        
     }
 }
