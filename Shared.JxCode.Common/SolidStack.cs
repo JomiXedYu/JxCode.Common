@@ -130,7 +130,7 @@ namespace JxCode.Common
             Array.Clear(this.array, this.head, this.Count);
         }
 
-         IEnumerator IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return new Enumerator(this);
         }
