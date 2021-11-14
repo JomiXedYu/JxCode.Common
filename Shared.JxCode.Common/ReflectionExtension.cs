@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * @Moudule     : SqlHelper
+ * @Date        : 2020/12/04
+ * @Author      : jx
+ * @Link        : https://github.com/JomiXedYu
+ * @Description : 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
