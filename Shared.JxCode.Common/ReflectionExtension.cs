@@ -38,7 +38,7 @@ namespace JxCode.Common
 
         public static bool IsPropertyMethod(this MethodInfo _this)
         {
-            return _this.Name.StartsWith("get") || _this.Name.StartsWith("set");
+            return _this.Name.StartsWith("get_") || _this.Name.StartsWith("set_");
         }
 
         /// <summary>
