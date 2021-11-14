@@ -53,7 +53,7 @@ namespace JxCode.Common
             foreach (MethodInfo item in methods)
             {
                 if (item.IsOperatorMethod() || item.IsPropertyMethod())
-                { 
+                {
                     continue;
                 }
                 mis.Add(item);
@@ -67,7 +67,7 @@ namespace JxCode.Common
         /// <param name="assembly"></param>
         /// <param name="attribute"></param>
         /// <returns></returns>
-        public static MethodInfo[] GetMethodByAttribute(this Assembly assembly,Type attribute)
+        public static MethodInfo[] GetMethodByAttribute(this Assembly assembly, Type attribute)
         {
             if (assembly == null) assembly = Assembly.GetCallingAssembly();
 
